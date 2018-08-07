@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block title %}
 	home | securetube
@@ -6,6 +7,47 @@
 
 {% block content %}
 
-	<p>hello dhanuka </p>
+	<div class="ui horizontal list">
+		<div class="item">
+			<img class="ui tiny image" src="{% static 'img/icon.png' %}">
+		</div>
+		<div class="item">
+			<form class="ui form">
+				<div class="ui input">
+					<input type="text" placeholder="Search SecureTube">
+				</div>
+				<button class="ui basic button" type="submit">
+					search
+				</button>
+			</form>
+		</div>
+		<div class="item">
+			<a href="#" class="ui button">Login</a>
+		</div>
+		<div class="item">
+			<a href="#" class="ui button">More</a>
+		</div>
+		<div class="item">
+			<a href="#" class="ui button">Contribute</a>
+		</div>
+	</div>
+
+	<br>
+	<br>
+	<br>
+	
+	<div class="ui grid">
+		<div class="thirteen wide column">
+			<h2 class="ui header">Welcome to SecureTube</h2>
+
+			<p>SecureTube is a new, free and secure way to watch YouTube videos. For the geeks among us. It's open source and powered by Python/Django.</p>
+		</div>
+
+		<div class="three wide column">
+			<a class="item">
+				<h4 class="ui header">Stats</h4>
+				<p>hellowwd csc</p>
+		</div>
+	</div>
 
 {% endblock %}
