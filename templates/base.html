@@ -10,6 +10,32 @@
 	<body>
 
 		<div class="ui container">
+		
+			<div class="ui horizontal list">
+				<div class="item">
+					<img class="ui tiny image" src="{% static 'img/icon.png' %}">
+				</div>
+				<div class="item">
+					<form class="ui form" method="POST" action="/results">
+						<div class="ui input">
+							<input type="text" placeholder="Search SecureTube">
+						</div>
+						<button class="ui basic button" type="submit">
+							search
+						</button>
+					</form>
+				</div>
+				<div class="item">
+					<a href="#" class="ui button">Login</a>
+				</div>
+				<div class="item">
+					<a href="#" class="ui button">More</a>
+				</div>
+				<div class="item">
+					<a href="#" class="ui button">Contribute</a>
+				</div>
+		</div>
+		
 			{% block content %}
 
 			{% endblock %}
