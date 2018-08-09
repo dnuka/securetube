@@ -14,7 +14,13 @@
 					<img src="{{ item.thumbnail }}" class="ui fluid image">
 				</div>
 				<div class="sub header">
-					<a href="{{ item.url }}">{{ item.description }}</a>
+					<form method="POST" action="/play" target="_blank" >
+						{% csrf_token %}
+						<a>{{ item.description }}</a>
+						<input type="text" name="url" 
+						value="{{ item.url }}" hidden>
+						<input type="submit" value="Play">
+					</form>
 				</div>
 			</div>
 

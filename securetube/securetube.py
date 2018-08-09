@@ -3,12 +3,31 @@
 from urllib import request
 from pprint import pprint
 from bs4 import BeautifulSoup
+import youtube_dl
 
 base = 'https://www.youtube.com/results/?search_query={}&disable_polymer=1&hl=en-GB&gl=US'
 
 
 def get_thumbnail(video_id):
 	return 'https://img.youtube.com/vi/{}/mqdefault.jpg'.format(video_id)
+
+
+def watch(url):
+	ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s%(ext)s'})
+	with ydl:
+		result = ydl.extract_info(
+			url, download = False
+		)
+	if 'entries' in result:
+		video = result['entries'][0]
+	else:
+		video = result
+		pprint(video['formats'])
+		print(len(video['formats']))
+		for vid in video['formats']:
+			if vid['vcodec'] == 'avc1.42001E':
+				return vid['url']
+		return None
 
 
 def fetch(query):
