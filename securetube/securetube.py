@@ -1,7 +1,6 @@
 # securetube engine
 
 from urllib import request
-from pprint import pprint
 from bs4 import BeautifulSoup
 import youtube_dl
 
@@ -10,6 +9,14 @@ base = 'https://www.youtube.com/results/?search_query={}&disable_polymer=1&hl=en
 
 def get_thumbnail(video_id):
 	return 'https://img.youtube.com/vi/{}/mqdefault.jpg'.format(video_id)
+
+
+def channel_info(url):
+	link = 'https://www.youtube.com/oembed?url={}&format=json'.format(url)
+	req = request.Request(link)
+	req.add_header("User-Agent", "36438")
+	with request.urlopen(req) as youtube:
+		pass
 
 
 def watch(url):
@@ -22,8 +29,8 @@ def watch(url):
 		video = result['entries'][0]
 	else:
 		video = result
-		pprint(video['formats'])
-		print(len(video['formats']))
+		#pprint(video['formats'])
+		#print(len(video['formats']))
 		for vid in video['formats']:
 			if vid['vcodec'] == 'avc1.42001E':
 				return vid['url']
