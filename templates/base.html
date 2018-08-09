@@ -17,6 +17,7 @@
 				</div>
 				<div class="item">
 					<form class="ui form" method="POST" action="/results">
+						{% csrf_token %}
 						<div class="ui input">
 							<input type="text" placeholder="Search SecureTube">
 						</div>

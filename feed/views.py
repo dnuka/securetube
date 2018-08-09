@@ -5,4 +5,4 @@ def index(request):
 	return render(request, 'securetube/index.html')
 
 def results(request):
-	return HttpResponse('results')
+	return render(request, 'securetube/results.html')
