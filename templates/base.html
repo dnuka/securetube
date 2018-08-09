@@ -5,7 +5,8 @@
 		<meta charset="utf8">
 		<title>{% block title %} {% endblock %}</title>
 		<link rel='stylesheet' href="{% static 'css/semantic.min.css' %}">
-	<head>
+		<link rel='stylesheet' href="{% static 'css/styles.css' %}">
+	</head>
 
 	<body>
 
@@ -18,28 +19,32 @@
 				<div class="item">
 					<form class="ui form" method="POST" action="/results">
 						{% csrf_token %}
-						<div class="ui input">
-							<input type="text" placeholder="Search SecureTube">
+						<div class="ui big input">
+							<input type="text" placeholder="Search SecureTube" name="query">
 						</div>
-						<button class="ui basic button" type="submit">
-							search
-						</button>
 					</form>
 				</div>
+
+				<div class="item nav_bar_right">
+
+				</div>
+
 				<div class="item">
 					<a href="#" class="ui button">Login</a>
 				</div>
 				<div class="item">
-					<a href="#" class="ui button">More</a>
-				</div>
-				<div class="item">
 					<a href="#" class="ui button">Contribute</a>
 				</div>
-		</div>
-		
-			{% block content %}
 
-			{% endblock %}
+			</div>
+
+			<div>
+			
+				{% block content %}
+
+				{% endblock %}
+			</div>
+
 		</div>
 
 	</body>
