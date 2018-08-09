@@ -14,7 +14,9 @@
 		
 			<div class="ui horizontal list">
 				<div class="item">
-					<img class="ui tiny image" src="{% static 'img/icon.png' %}">
+					<a href="/" class="ui tiny image">
+						<img src="{% static 'img/icon.png' %}">
+					</a>
 				</div>
 				<div class="item">
 					<form class="ui form" method="POST" action="/results">
@@ -38,8 +40,7 @@
 
 			</div>
 
-			<div>
-			
+			<div>		
 				{% block content %}
 
 				{% endblock %}
