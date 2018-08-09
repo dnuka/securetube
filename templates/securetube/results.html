@@ -4,7 +4,22 @@
 {% block title %} results | securetube {% endblock %} 
 
 {% block content %}
+	<br>
 
-	{{ data }}
+	<div class="ui four column grid">
+		{% for item in data %}
+
+			<div class="column">
+				<div class="ui">
+					<img src="{{ item.thumbnail }}" class="ui fluid image">
+				</div>
+				<div class="sub header">
+					<a href="{{ item.url }}">{{ item.description }}</a>
+				</div>
+			</div>
+
+		{% endfor %}
+	</div>
+		
 
 {% endblock %}

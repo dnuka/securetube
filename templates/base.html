@@ -12,7 +12,7 @@
 
 		<div class="ui container">
 		
-			<div class="ui horizontal list">
+			<div class="ui link horizontal list">
 				<div class="item">
 					<a href="/" class="ui tiny image">
 						<img src="{% static 'img/icon.png' %}">
@@ -21,21 +21,18 @@
 				<div class="item">
 					<form class="ui form" method="POST" action="/results">
 						{% csrf_token %}
-						<div class="ui big input">
+						<div class="ui input bar">
 							<input type="text" placeholder="Search SecureTube" name="query">
 						</div>
 					</form>
 				</div>
-
 				<div class="item nav_bar_right">
-
-				</div>
-
-				<div class="item">
-					<a href="#" class="ui button">Login</a>
 				</div>
 				<div class="item">
-					<a href="#" class="ui button">Contribute</a>
+					<a href="#">Login</a>
+				</div>
+				<div class="item">
+					<a href="#">FAQ</a>
 				</div>
 
 			</div>
