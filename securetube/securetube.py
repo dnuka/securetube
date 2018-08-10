@@ -6,7 +6,12 @@ from pprint import pprint
 from bs4 import BeautifulSoup
 import youtube_dl
 
-base = 'https://www.youtube.com/results/?search_query={}&disable_polymer=1&hl=en-GB&gl=US'
+base = """https://www.youtube.com/results/?search_query={}&disable_polymer=1&hl=en-GB&gl=US"""
+pure = """https://www.youtube.{}eos?disable_polymer=1&hl=en-GB&gl=US"""
+
+def clean_url(url):
+	link = url.strip("https://www.youtube.")
+	return pure.format(link)
 
 
 def get_thumbnail(video_id):
@@ -43,9 +48,11 @@ def watch(url):
 
 def fetch(query):
 	results = []
-	if 'channel' in query:
-		req = request.Request(query)
-	req = request.Request(base.format(query))
+	if 'www.youtube.com' in query:
+		req = request.Request(clean_url(query))
+		print(clean_url(query))
+	else:
+		req = request.Request(base.format(query))
 	req.add_header("User-Agent", "36438")
 	with request.urlopen(req) as youtube:
 		raw_data = BeautifulSoup(youtube, 'html.parser')

@@ -8,8 +8,9 @@ def index(request):
 def results(request):
 	if request.method == 'POST':
 		query = request.POST.get('query')
-	if 'channel' in query:
-		data = fetch(query + '/videos')
+	if 'www.youtube.com' in query:
+		query += '/videos'
+	#print(query)
 	data = fetch(query)
 	context = {'data': data}
 	return render(request, 'securetube/results.html', context)
