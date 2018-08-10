@@ -1,6 +1,8 @@
 # securetube engine
 
 from urllib import request
+import json
+from pprint import pprint
 from bs4 import BeautifulSoup
 import youtube_dl
 
@@ -11,12 +13,14 @@ def get_thumbnail(video_id):
 	return 'https://img.youtube.com/vi/{}/mqdefault.jpg'.format(video_id)
 
 
-def channel_info(url):
+def fetch_meta(url):
 	link = 'https://www.youtube.com/oembed?url={}&format=json'.format(url)
 	req = request.Request(link)
 	req.add_header("User-Agent", "36438")
 	with request.urlopen(req) as youtube:
-		pass
+		data = json.loads(youtube.read().decode())
+	#pprint(data)
+	return data
 
 
 def watch(url):

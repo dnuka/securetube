@@ -4,9 +4,31 @@
 {% block title %} Play | SecureTube {% endblock %} 
 
 {% block content %}
+	<br>
 
-	<video src="{{ data }}" controls class="ui fluid image">
+	<div class="ui grid">
 
-	</video>
+		<div class="thirteen wide column">
+			<video src="{{ data }}" controls class="ui fluid image">
+			</video>
+		</div>
+
+		
+		<div class="three wide column">
+			<div class="ui vertical text menu">
+				<div class="item">
+					<form method="POST" action="/results">
+						{% csrf_token %}
+						<h4 class="ui header grey">{{ meta.title }}</h4>
+						<input type="text" value="{{ meta.author_url }}"
+							hidden>
+						<input type="submit" value="{{ meta.author_name }}"
+							class="ui red button channel">
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
 
 {% endblock %}

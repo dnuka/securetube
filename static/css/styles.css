@@ -14,3 +14,8 @@
 .p_text {
 	font-size: 17px;
 }
+
+.channel {
+	width: 200px;
+	overflow:hidden;
+}
