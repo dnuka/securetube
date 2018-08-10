@@ -50,7 +50,7 @@ def fetch(query):
 	results = []
 	if 'www.youtube.com' in query:
 		req = request.Request(clean_url(query))
-		print(clean_url(query))
+		#print(clean_url(query))
 	else:
 		req = request.Request(base.format(query))
 	req.add_header("User-Agent", "36438")
