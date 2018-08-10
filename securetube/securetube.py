@@ -43,6 +43,8 @@ def watch(url):
 
 def fetch(query):
 	results = []
+	if 'channel' in query:
+		req = request.Request(query)
 	req = request.Request(base.format(query))
 	req.add_header("User-Agent", "36438")
 	with request.urlopen(req) as youtube:

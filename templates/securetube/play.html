@@ -21,7 +21,7 @@
 						{% csrf_token %}
 						<h4 class="ui header grey">{{ meta.title }}</h4>
 						<input type="text" value="{{ meta.author_url }}"
-							hidden>
+							hidden name="query">
 						<input type="submit" value="{{ meta.author_name }}"
 							class="ui red button channel">
 					</form>
