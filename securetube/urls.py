@@ -16,10 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from .views import index, results, play
+from feed.views import trending, library
 
 urlpatterns = [
 	url(r'^$', index),
 	url(r'^results$', results),
 	url(r'^play$', play),
+	url(r'^trending$', trending),
+	url(r'^library$', library),
     url(r'^admin/', admin.site.urls),
 ]
