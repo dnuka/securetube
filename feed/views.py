@@ -4,5 +4,5 @@ def trending(request):
 	return render(request, 'feed/trending.html')
 
 
-def library(request):
-	return render(request, 'feed/home.html')
+def feed(request):
+	return render(request, 'feed/feed.html')
