@@ -69,3 +69,10 @@ def fetch(query):
 					info['href'].split('/watch?v=', 1)[1])
 			results.append(temp)
 	return results
+
+
+def subscribe(channel):
+	with open('channels.txt', 'a+') as channels:
+		print(channels.readlines())
+		if channel not in channels.readlines():
+			channels.write(channel)
