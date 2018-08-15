@@ -46,6 +46,27 @@ def watch(url):
 		return None
 
 
+def scrape_url(urls):
+	videos = []
+	for url in urls:
+		req = request.Request(url)
+		req.add_header('User-Agent', '36400')
+		with request.urlopen(req) as channel:
+			raw_data = BeautifulSoup(channel, 'html.parser')
+		data = raw_data.findAll('a',attrs={'class':'yt-uix-tile-link'})
+		vids = []
+		for info in data:
+			link = 'https://www.youtube.com' + info['href']
+			if not len(vids) == 4:
+				vids.append(link)
+		videos.extend(vids)
+	return videos
+
+
+def simple_fetch(url):
+	pass
+
+
 def fetch(query):
 	results = []
 	if 'www.youtube.com' in query:
@@ -53,7 +74,7 @@ def fetch(query):
 		#print(clean_url(query))
 	else:
 		req = request.Request(base.format(query))
-	req.add_header("User-Agent", "36438")
+	req.add_header('User-Agent', '36438')
 	with request.urlopen(req) as youtube:
 		raw_data = BeautifulSoup(youtube, 'html.parser')
 	#videos = raw_data.find_all('h3', attrs={'class': 'yt-lockup-title'})

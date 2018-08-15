@@ -6,12 +6,3 @@ class Channels(models.Model):
 		return self.url
 
 	url = models.URLField()
-
-
-class Channel(models.Model):
-
-	def __str__(self):
-		return self.videos
-
-	url = models.URLField()
-	videos = set()
