@@ -9,6 +9,17 @@ import youtube_dl
 base = """https://www.youtube.com/results/?search_query={}&disable_polymer=1&hl=en-GB&gl=US"""
 pure = """https://www.youtube.{}eos?disable_polymer=1&hl=en-GB&gl=US"""
 
+
+def proxy():
+	api = """https://gimmeproxy.com/api/getProxy?protocol=socks5&anonymityLevel=1&supportsHttps=true&minSpeed=500"""
+	req = request.Request(api)
+	req.add_header('User-Agent', '234564')
+	with request.urlopen(req) as proxy_handler:
+		data = json.loads(proxy_handler.read().decode())
+	proxy = data['protocol'] + '://' + data['ip'] + ':' + data['port']
+	print(proxy)
+	return proxy
+
 def clean_url(url):
 	link = url.strip("https://www.youtube.")
 	return pure.format(link)
@@ -21,7 +32,7 @@ def get_thumbnail(video_id):
 def fetch_meta(url):
 	link = 'https://www.youtube.com/oembed?url={}&format=json'.format(url)
 	req = request.Request(link)
-	req.add_header("User-Agent", "36438")
+	req.add_header('User-Agent', '36438')
 	with request.urlopen(req) as youtube:
 		data = json.loads(youtube.read().decode())
 	#pprint(data)
@@ -29,7 +40,10 @@ def fetch_meta(url):
 
 
 def watch(url):
-	ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s%(ext)s'})
+	
+	ydl = youtube_dl.YoutubeDL(
+			{'outtmpl': '%(id)s%(ext)s',
+			'proxy': proxy()})
 	with ydl:
 		result = ydl.extract_info(
 			url, download = False
