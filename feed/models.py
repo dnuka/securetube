@@ -1,3 +1,9 @@
 from django.db import models
 
-# Create your models here.
+class Channels(models.Model):
+	url = models.URLField()
+
+
+class Channel(models.Model):
+	url = models.URLField()
+	videos = set()

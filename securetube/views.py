@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .securetube import fetch, watch, fetch_meta, subscribe
+from .securetube import fetch, watch, fetch_meta
 
 def index(request):
 	return render(request, 'securetube/index.html')
@@ -13,7 +13,7 @@ def results(request):
 		query += '/videos'
 	#print(query)
 	if status == 'subscribe':
-		subscribe(query)
+		#subscribe(query)
 	data = fetch(query)
 	context = {'data': data}
 	return render(request, 'securetube/results.html', context)
