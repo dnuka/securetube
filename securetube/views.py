@@ -21,6 +21,7 @@ def results(request):
 			search = Channels.objects.get(url=query)
 		except Exception as error:
 			print(error)
+			# exception is occured means no mach, just saving is fine. no if
 			channel.save()
 	context = {'data': data}
 	return render(request, 'securetube/results.html', context)
