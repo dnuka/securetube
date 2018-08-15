@@ -64,7 +64,7 @@ def fetch(query):
 			temp = {}
 			temp['url'] = link
 			temp['description'] = info['title']
-			print(info['href'])
+			#print(info['href'])
 			temp['thumbnail'] = get_thumbnail(
 					info['href'].split('/watch?v=', 1)[1])
 			results.append(temp)
