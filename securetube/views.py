@@ -15,10 +15,12 @@ def results(request):
 	#print(query)
 	data = fetch(query)
 	if status:
-		print(Channels.objects.all())
+		#print(Channels.objects.all())
 		channel = Channels(url=query)
-		search = Channels.objects.get(url=query)
-		if not query == search.url:
+		try:
+			search = Channels.objects.get(url=query)
+		except Exception as error:
+			print(error)
 			channel.save()
 	context = {'data': data}
 	return render(request, 'securetube/results.html', context)
