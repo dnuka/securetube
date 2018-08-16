@@ -10,12 +10,12 @@ base = """https://www.youtube.com/results/?search_query={}&disable_polymer=1&hl=
 pure = """https://www.youtube.{}eos?disable_polymer=1&hl=en-GB&gl=US"""
 
 
-def proxy():
+def anonymous():
 	api = """https://gimmeproxy.com/api/getProxy?protocol=socks5&anonymityLevel=1&supportsHttps=true&minSpeed=500"""
 	req = request.Request(api)
 	req.add_header('User-Agent', '234564')
-	with request.urlopen(req) as data:
-		proxy = json.loads(data.read().decode())
+	with request.urlopen(req) as proxy_data:
+		proxy = json.loads(proxy_data.read().decode())
 	return proxy
 
 
@@ -32,7 +32,7 @@ def fetch_meta(url):
 	link = 'https://www.youtube.com/oembed?url={}&format=json'.format(url)
 	req = request.Request(link)
 	req.add_header('User-Agent', '36438')
-	proxy = proxy()
+	proxy = anonymous()
 	req.set_proxy(proxy['ip'] + ':' + proxy['port'], proxy['protocol'])
 	with request.urlopen(req) as youtube:
 		data = json.loads(youtube.read().decode())
@@ -41,11 +41,11 @@ def fetch_meta(url):
 
 
 def watch(url):
-	data = proxy()
-	proxy = data['protocol'] + '://' + data['ip'] + ':' + data['port']
+	p_data = anonymous()
+	proxy = p_data['protocol'] + '://' + p_data['ip'] + ':' + p_data['port']
 	ydl = youtube_dl.YoutubeDL(
 			{'outtmpl': '%(id)s%(ext)s',
-			'proxy': proxy()})
+			'proxy': proxy})
 	with ydl:
 		result = ydl.extract_info(
 			url, download = False
@@ -93,7 +93,7 @@ def fetch(query):
 	else:
 		req = request.Request(base.format(query))
 	req.add_header('User-Agent', '36438')
-	proxy = proxy()
+	proxy = anonymous()
 	req.set_proxy(proxy['ip'] + ':' + proxy['port'], proxy['protocol'])
 	with request.urlopen(req) as youtube:
 		raw_data = BeautifulSoup(youtube, 'html.parser')
