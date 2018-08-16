@@ -9,16 +9,6 @@ import youtube_dl
 base = """https://www.youtube.com/results/?search_query={}&disable_polymer=1&hl=en-GB&gl=US"""
 pure = """https://www.youtube.{}eos?disable_polymer=1&hl=en-GB&gl=US"""
 
-
-def anonymous():
-	api = """https://gimmeproxy.com/api/getProxy?protocol=socks5&anonymityLevel=1&supportsHttps=true&minSpeed=500"""
-	req = request.Request(api)
-	req.add_header('User-Agent', '234564')
-	with request.urlopen(req) as proxy_data:
-		proxy = json.loads(proxy_data.read().decode())
-	return proxy
-
-
 def clean_url(url):
 	link = url.strip("https://www.youtube.")
 	return pure.format(link)
@@ -31,9 +21,7 @@ def get_thumbnail(video_id):
 def fetch_meta(url):
 	link = 'https://www.youtube.com/oembed?url={}&format=json'.format(url)
 	req = request.Request(link)
-	req.add_header('User-Agent', '36438')
-	proxy = anonymous()
-	req.set_proxy(proxy['ip'] + ':' + proxy['port'], proxy['protocol'])
+	req.add_header("User-Agent", "36438")
 	with request.urlopen(req) as youtube:
 		data = json.loads(youtube.read().decode())
 	#pprint(data)
@@ -41,11 +29,7 @@ def fetch_meta(url):
 
 
 def watch(url):
-	p_data = anonymous()
-	proxy = p_data['protocol'] + '://' + p_data['ip'] + ':' + p_data['port']
-	ydl = youtube_dl.YoutubeDL(
-			{'outtmpl': '%(id)s%(ext)s',
-			'proxy': proxy})
+	ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s%(ext)s'})
 	with ydl:
 		result = ydl.extract_info(
 			url, download = False
@@ -67,8 +51,6 @@ def scrape_url(urls):
 	for url in urls:
 		req = request.Request(url)
 		req.add_header('User-Agent', '36400')
-		proxy = proxy()
-		req.set_proxy(proxy['ip'] + ':' + proxy['port'], proxy['protocol'])
 		with request.urlopen(req) as channel:
 			raw_data = BeautifulSoup(channel, 'html.parser')
 		data = raw_data.findAll('a',attrs={'class':'yt-uix-tile-link'})
@@ -93,8 +75,6 @@ def fetch(query):
 	else:
 		req = request.Request(base.format(query))
 	req.add_header('User-Agent', '36438')
-	proxy = anonymous()
-	req.set_proxy(proxy['ip'] + ':' + proxy['port'], proxy['protocol'])
 	with request.urlopen(req) as youtube:
 		raw_data = BeautifulSoup(youtube, 'html.parser')
 	#videos = raw_data.find_all('h3', attrs={'class': 'yt-lockup-title'})

@@ -3,6 +3,7 @@ from .securetube import fetch, watch, fetch_meta
 from feed.models import Channels
 
 def index(request):
+	#request.session['proxy'] = anonymous()
 	return render(request, 'securetube/index.html')
 
 
