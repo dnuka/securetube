@@ -14,11 +14,10 @@ def proxy():
 	api = """https://gimmeproxy.com/api/getProxy?protocol=socks5&anonymityLevel=1&supportsHttps=true&minSpeed=500"""
 	req = request.Request(api)
 	req.add_header('User-Agent', '234564')
-	with request.urlopen(req) as proxy_handler:
-		data = json.loads(proxy_handler.read().decode())
-	proxy = data['protocol'] + '://' + data['ip'] + ':' + data['port']
-	print(proxy)
+	with request.urlopen(req) as data:
+		proxy = json.loads(data.read().decode())
 	return proxy
+
 
 def clean_url(url):
 	link = url.strip("https://www.youtube.")
@@ -33,6 +32,8 @@ def fetch_meta(url):
 	link = 'https://www.youtube.com/oembed?url={}&format=json'.format(url)
 	req = request.Request(link)
 	req.add_header('User-Agent', '36438')
+	proxy = proxy()
+	req.set_proxy(proxy['ip'] + ':' + proxy['port'], proxy['protocol'])
 	with request.urlopen(req) as youtube:
 		data = json.loads(youtube.read().decode())
 	#pprint(data)
@@ -40,7 +41,8 @@ def fetch_meta(url):
 
 
 def watch(url):
-	
+	data = proxy()
+	proxy = data['protocol'] + '://' + data['ip'] + ':' + data['port']
 	ydl = youtube_dl.YoutubeDL(
 			{'outtmpl': '%(id)s%(ext)s',
 			'proxy': proxy()})
@@ -65,6 +67,8 @@ def scrape_url(urls):
 	for url in urls:
 		req = request.Request(url)
 		req.add_header('User-Agent', '36400')
+		proxy = proxy()
+		req.set_proxy(proxy['ip'] + ':' + proxy['port'], proxy['protocol'])
 		with request.urlopen(req) as channel:
 			raw_data = BeautifulSoup(channel, 'html.parser')
 		data = raw_data.findAll('a',attrs={'class':'yt-uix-tile-link'})
@@ -89,6 +93,8 @@ def fetch(query):
 	else:
 		req = request.Request(base.format(query))
 	req.add_header('User-Agent', '36438')
+	proxy = proxy()
+	req.set_proxy(proxy['ip'] + ':' + proxy['port'], proxy['protocol'])
 	with request.urlopen(req) as youtube:
 		raw_data = BeautifulSoup(youtube, 'html.parser')
 	#videos = raw_data.find_all('h3', attrs={'class': 'yt-lockup-title'})
