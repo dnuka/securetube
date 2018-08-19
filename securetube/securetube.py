@@ -10,83 +10,83 @@ base = """https://www.youtube.com/results/?search_query={}&disable_polymer=1&hl=
 pure = """https://www.youtube.{}eos?disable_polymer=1&hl=en-GB&gl=US"""
 
 def clean_url(url):
-	link = url.strip("https://www.youtube.")
-	return pure.format(link)
+    link = url.strip("https://www.youtube.")
+    return pure.format(link)
 
 
 def get_thumbnail(video_id):
-	return 'https://img.youtube.com/vi/{}/mqdefault.jpg'.format(video_id)
+    return 'https://img.youtube.com/vi/{}/mqdefault.jpg'.format(video_id)
 
 
 def fetch_meta(url):
-	link = 'https://www.youtube.com/oembed?url={}&format=json'.format(url)
-	req = request.Request(link)
-	req.add_header("User-Agent", "36438")
-	with request.urlopen(req) as youtube:
-		data = json.loads(youtube.read().decode())
-	#pprint(data)
-	return data
+    link = 'https://www.youtube.com/oembed?url={}&format=json'.format(url)
+    req = request.Request(link)
+    req.add_header("User-Agent", "36438")
+    with request.urlopen(req) as youtube:
+    	data = json.loads(youtube.read().decode())
+    #pprint(data)
+    return data
 
 
 def watch(url):
-	ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s%(ext)s'})
-	with ydl:
-		result = ydl.extract_info(
-			url, download = False
-		)
-	if 'entries' in result:
-		video = result['entries'][0]
-	else:
-		video = result
-		#pprint(video['formats'])
-		#print(len(video['formats']))
-		for vid in video['formats']:
-			if vid['vcodec'] == 'avc1.42001E':
-				return vid['url']
-		return None
+    ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s%(ext)s'})
+    with ydl:
+            result = ydl.extract_info(
+                    url, download = False
+            )
+    if 'entries' in result:
+            video = result['entries'][0]
+    else:
+            video = result
+            #pprint(video['formats'])
+            #print(len(video['formats']))
+            for vid in video['formats']:
+                    if vid['vcodec'] == 'avc1.42001E':
+                            return vid['url']
+            return None
 
 
 def scrape_url(urls):
-	videos = []
-	for url in urls:
-		req = request.Request(url)
-		req.add_header('User-Agent', '36400')
-		with request.urlopen(req) as channel:
-			raw_data = BeautifulSoup(channel, 'html.parser')
-		data = raw_data.findAll('a',attrs={'class':'yt-uix-tile-link'})
-		vids = []
-		for info in data:
-			link = 'https://www.youtube.com' + info['href']
-			if not len(vids) == 4:
-				vids.append(link)
-		videos.extend(vids)
-	return videos
+    videos = []
+    for url in urls:
+            req = request.Request(url)
+            req.add_header('User-Agent', '36400')
+            with request.urlopen(req) as channel:
+                    raw_data = BeautifulSoup(channel, 'html.parser')
+            data = raw_data.findAll('a',attrs={'class':'yt-uix-tile-link'})
+            vids = []
+            for info in data:
+                    link = 'https://www.youtube.com' + info['href']
+                    if not len(vids) == 4:
+                            vids.append(link)
+            videos.extend(vids)
+    return videos
 
 
 def simple_fetch(url):
-	pass
+    pass
 
 
 def fetch(query):
-	results = []
-	if 'www.youtube.com' in query:
-		req = request.Request(clean_url(query))
-		#print(clean_url(query))
-	else:
-		req = request.Request(base.format(query))
-	req.add_header('User-Agent', '36438')
-	with request.urlopen(req) as youtube:
-		raw_data = BeautifulSoup(youtube, 'html.parser')
-	#videos = raw_data.find_all('h3', attrs={'class': 'yt-lockup-title'})
-	data = raw_data.findAll('a',attrs={'class':'yt-uix-tile-link'})
-	for info in data:
-		link = 'https://www.youtube.com' + info['href']
-		if '/watch?v' in link:
-			temp = {}
-			temp['url'] = link
-			temp['description'] = info['title']
-			#print(info['href'])
-			temp['thumbnail'] = get_thumbnail(
-					info['href'].split('/watch?v=', 1)[1])
-			results.append(temp)
-	return results
+    results = []
+    if 'www.youtube.com' in query:
+            req = request.Request(clean_url(query))
+            #print(clean_url(query))
+    else:
+            req = request.Request(base.format(query))
+    req.add_header('User-Agent', '36438')
+    with request.urlopen(req) as youtube:
+            raw_data = BeautifulSoup(youtube, 'html.parser')
+    #videos = raw_data.find_all('h3', attrs={'class': 'yt-lockup-title'})
+    data = raw_data.findAll('a',attrs={'class':'yt-uix-tile-link'})
+    for info in data:
+            link = 'https://www.youtube.com' + info['href']
+            if '/watch?v' in link:
+                    temp = {}
+                    temp['url'] = link
+                    temp['description'] = info['title']
+                    #print(info['href'])
+                    temp['thumbnail'] = get_thumbnail(
+                                    info['href'].split('/watch?v=', 1)[1])
+                    results.append(temp)
+    return results
