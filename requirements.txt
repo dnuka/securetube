@@ -1,3 +1,4 @@
 Django
 selenium
 beautifulsoup4
+youtube_dl
